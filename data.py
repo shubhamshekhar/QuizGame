@@ -1,9 +1,31 @@
+import requests
+
+
 """
 
     Get Questions from https://opentdb.com/api_config.php
     Remove the upper dictionary and leave the rest as it is
 
 """
+
+
+class Data:
+    def __init__(self):
+        self.question_data = []
+        self.parameters = {
+            "amount": 10,
+            "difficulty": "easy",
+            "type": "boolean"
+        }
+
+    def load_questions_from_api(self):
+        response = requests.get("https://opentdb.com/api.php", params=self.parameters)
+        response.raise_for_status()
+        self.question_data = response.json()["results"]
+        return self.question_data
+        #print(self.question_data)
+
+
 question_data = [
     {"category": "General Knowledge", "type": "boolean", "difficulty": "easy",
      "question": "The Great Wall of China is visible from the moon.", "correct_answer": "False",
